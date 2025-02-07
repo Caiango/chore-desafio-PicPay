@@ -1,12 +1,15 @@
-package com.picpay.desafio.android
-
-class ExampleService(
-    private val service: PicPayService
-) {
-
-    fun example(): List<User> {
-        val users = service.getUsers().execute()
-
-        return users.body() ?: emptyList()
-    }
-}
+//package com.picpay.desafio.android
+//
+//import com.picpay.remote.ServiceRemoteProvider
+//import com.picpay.remote.UserRemote
+//
+//class ExampleService(
+//    private val service: ServiceRemoteProvider
+//) {
+//
+//    fun example(): List<UserRemote> {
+//        val users = service.getUsers().execute()
+//
+//        return users.body() ?: emptyList()
+//    }
+//}

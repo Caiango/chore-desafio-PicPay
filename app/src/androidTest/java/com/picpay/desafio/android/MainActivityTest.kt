@@ -5,8 +5,11 @@ import androidx.test.core.app.launchActivity
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry
+import com.picpay.desafio.android.presentation.MainActivity
+import desafio_android.R
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -45,7 +48,8 @@ class MainActivityTest {
         server.start(serverPort)
 
         launchActivity<MainActivity>().apply {
-            // TODO("validate if list displays items returned by server")
+            onView(withId(R.id.recyclerView))
+                .check(matches(isDisplayed()))
         }
 
         server.close()
