@@ -1,4 +1,4 @@
-package com.picpay.desafio.android.presentation.compose
+package com.picpay.desafio.android.compose
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -32,7 +32,7 @@ import androidx.constraintlayout.compose.Visibility
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.picpay.domain.user.User
-import com.picpay.desafio.android.presentation.compose.fakedata.UserFakeData
+import com.picpay.desafio.android.compose.fakedata.UserFakeData
 import desafio_android.R
 
 @Composable

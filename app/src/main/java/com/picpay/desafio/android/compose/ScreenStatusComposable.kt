@@ -1,4 +1,4 @@
-package com.picpay.desafio.android.presentation.compose
+package com.picpay.desafio.android.compose
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

@@ -48,9 +48,4 @@ dependencies {
     // Koin
     implementation("io.insert-koin:koin-android:4.0.2")
     implementation("io.insert-koin:koin-core:4.0.2")
-
-    // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.7.1")
-    implementation("com.squareup.retrofit2:adapter-rxjava2:2.7.1")
-    implementation("com.squareup.retrofit2:converter-gson:2.7.1")
 }

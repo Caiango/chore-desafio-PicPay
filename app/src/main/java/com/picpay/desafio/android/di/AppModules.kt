@@ -1,24 +1,26 @@
 package com.picpay.desafio.android.di
 
-import com.picpay.desafio.android.presentation.MainViewModel
-import com.picpay.remote.ServiceRemoteProvider
-import com.pipcpay.local.room.UserRepository
+import com.picpay.desafio.android.MainViewModel
+import com.picpay.domain.providers.LocalProvider
+import com.picpay.domain.providers.RemoteProvider
+import com.picpay.remote.UserRemoteProvider
+import com.pipcpay.local.room.UserLocalProvider
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val presentationModule = module {
     viewModel {
         MainViewModel(
-            userRepository = get(),
-            service = get()
+            local = get(),
+            remote = get()
         )
     }
 }
 
 val repositoryModule = module {
-    single { UserRepository(get()) }
+    single<LocalProvider> { UserLocalProvider(get()) }
 }
 
 val serviceModule = module {
-    single { ServiceRemoteProvider(get()) }
+    single<RemoteProvider> { UserRemoteProvider(get()) }
 }

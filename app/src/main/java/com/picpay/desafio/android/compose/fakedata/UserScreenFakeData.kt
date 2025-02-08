@@ -1,4 +1,4 @@
-package com.picpay.desafio.android.presentation.compose.fakedata
+package com.picpay.desafio.android.compose.fakedata
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.picpay.domain.screen.ScreenStatus

@@ -5,7 +5,7 @@ import com.pipcpay.local.room.UserDatabase
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
-val databaseModule = module {
+val localModule = module {
     single {
         Room.databaseBuilder(
             androidContext(),

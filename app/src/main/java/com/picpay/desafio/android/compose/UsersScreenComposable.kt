@@ -1,4 +1,4 @@
-package com.picpay.desafio.android.presentation.compose
+package com.picpay.desafio.android.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -23,7 +23,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.picpay.domain.user.UserScreen
-import com.picpay.desafio.android.presentation.compose.fakedata.UserScreenFakeData
+import com.picpay.desafio.android.compose.fakedata.UserScreenFakeData
 import desafio_android.R
 
 @Composable

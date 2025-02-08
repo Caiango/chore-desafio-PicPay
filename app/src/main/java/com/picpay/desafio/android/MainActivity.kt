@@ -1,8 +1,6 @@
-package com.picpay.desafio.android.presentation
+package com.picpay.desafio.android
 
 import android.os.Bundle
-import android.view.View
-import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,9 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.recyclerview.widget.RecyclerView
-import com.picpay.desafio.android.presentation.binding.UserListAdapter
-import com.picpay.desafio.android.presentation.compose.UsersScreenComposable
-import com.picpay.domain.screen.ScreenStatus
+import com.picpay.desafio.android.binding.UserListAdapter
+import com.picpay.desafio.android.compose.UsersScreenComposable
 import desafio_android.databinding.ActivityMainBinding
 import desafio_android.databinding.ActivityMainComposeBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -21,12 +18,11 @@ import org.koin.core.component.KoinComponent
 
 class MainActivity : AppCompatActivity(), KoinComponent {
 
-    private lateinit var composeBinding: ActivityMainComposeBinding
-    private lateinit var binding: ActivityMainBinding
-    private lateinit var recyclerView: RecyclerView
+    private var composeBinding: ActivityMainComposeBinding? = null
+    private var binding: ActivityMainBinding? = null
 
-    private lateinit var progressBar: ProgressBar
-    private lateinit var adapter: UserListAdapter
+    private var recyclerView: RecyclerView? = null
+    private var adapter: UserListAdapter? = null
 
     private val viewModel: MainViewModel by viewModel()
 
@@ -34,30 +30,28 @@ class MainActivity : AppCompatActivity(), KoinComponent {
         super.onCreate(savedInstanceState)
         composeBinding = ActivityMainComposeBinding.inflate(layoutInflater)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        binding.viewModel = this@MainActivity.viewModel
+        binding?.viewModel = this@MainActivity.viewModel
 
-        setContentView(composeBinding.root)
-    }
+        setContentView(binding?.root)
 
-    override fun onStart() {
-        super.onStart()
         initObservers()
-        initViews(binding)
+        binding?.let { initViews(it) }
     }
 
     private fun initViews(binding: ActivityMainBinding) {
+        binding.lifecycleOwner = this
+
         recyclerView = binding.recyclerView
-        progressBar = binding.userListProgressBar
 
         adapter = UserListAdapter()
-        recyclerView.adapter = adapter
+        recyclerView?.adapter = adapter
 
     }
 
     private fun initObservers() {
         with(viewModel) {
             screen.observe(this@MainActivity) {
-                composeBinding.cv.setContent {
+                composeBinding?.composeView?.setContent {
                     UsersScreenComposable(
                         Modifier
                             .fillMaxWidth()
@@ -68,19 +62,15 @@ class MainActivity : AppCompatActivity(), KoinComponent {
                 }
 
                 it.userList?.let { list ->
-                    adapter.users = list
+                    adapter?.users = list
                 }
-
-                progressBarVisibility(it.status)
             }
         }
     }
 
-    private fun progressBarVisibility(status: ScreenStatus) {
-        progressBar.visibility = if (status.isLoading) {
-            View.VISIBLE
-        } else {
-            View.GONE
-        }
+    override fun onDestroy() {
+        super.onDestroy()
+        composeBinding = null
+        binding = null
     }
 }

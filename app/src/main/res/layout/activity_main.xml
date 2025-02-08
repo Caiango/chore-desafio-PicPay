@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.picpay.desafio.android.presentation.MainViewModel" />
+            type="com.picpay.desafio.android.MainViewModel" />
     </data>
 
     <LinearLayout
@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:background="@color/colorPrimaryDark"
         android:orientation="vertical"
-        tools:context="com.picpay.desafio.android.presentation.MainActivity">
+        tools:context="com.picpay.desafio.android.MainActivity">
 
         <TextView
             android:id="@+id/title"
@@ -32,17 +32,19 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="match_parent"
                 android:layout_marginTop="24dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 tools:listitem="@layout/list_item_user" />
 
             <ProgressBar
                 android:id="@+id/user_list_progress_bar"
                 style="?android:attr/progressBarStyle"
+                isVisible="@{viewModel.screen.status}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
