@@ -10,7 +10,9 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.picpay.desafio.android.presentation.compose.fakedata.UserFakeData
+import com.picpay.desafio.android.compose.UserItemComposable
+import com.picpay.desafio.android.compose.UserItemIDs
+import com.picpay.desafio.android.compose.fakedata.UserFakeData
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

@@ -14,7 +14,11 @@ import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.picpay.desafio.android.presentation.compose.fakedata.UserScreenFakeData
+import com.picpay.desafio.android.DummyStatusListener
+import com.picpay.desafio.android.compose.ScreenStatusIDs
+import com.picpay.desafio.android.compose.ScreenTestIDs
+import com.picpay.desafio.android.compose.UsersScreenComposable
+import com.picpay.desafio.android.compose.fakedata.UserScreenFakeData
 import desafio_android.R
 import org.junit.Rule
 import org.junit.Test
