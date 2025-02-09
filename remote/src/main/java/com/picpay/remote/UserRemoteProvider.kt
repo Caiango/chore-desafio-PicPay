@@ -16,7 +16,7 @@ class UserRemoteProvider(
         if (!isNetworkAvailable(context)) {
             return UserScreen(
                 userList = null,
-                status = ScreenStatus.Error(Throwable(NO_INTERNET))
+                status = ScreenStatus.Error(Throwable(GENERIC_ERROR))
             )
         }
 
@@ -45,7 +45,7 @@ class UserRemoteProvider(
     }
 
     companion object {
-        private const val NO_INTERNET = "No internet connection"
+        private const val GENERIC_ERROR = "Houve um erro por aqui"
     }
 
 }

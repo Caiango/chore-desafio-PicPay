@@ -1,6 +1,7 @@
 package com.picpay.desafio.android
 
 import android.os.Bundle
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,11 +9,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.picpay.desafio.android.binding.UserListAdapter
 import com.picpay.desafio.android.compose.UsersScreenComposable
 import desafio_android.databinding.ActivityMainBinding
 import desafio_android.databinding.ActivityMainComposeBinding
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinComponent
 
@@ -23,6 +26,7 @@ class MainActivity : AppCompatActivity(), KoinComponent, StatusListener {
 
     private var recyclerView: RecyclerView? = null
     private var adapter: UserListAdapter? = null
+    private var feedbackButton: Button? = null
 
     private val viewModel: MainViewModel by viewModel()
 
@@ -32,7 +36,7 @@ class MainActivity : AppCompatActivity(), KoinComponent, StatusListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         binding?.viewModel = this@MainActivity.viewModel
 
-        setContentView(composeBinding?.root)
+        setContentView(binding?.root)
 
         initObservers()
         binding?.let { initViews(it) }
@@ -42,9 +46,15 @@ class MainActivity : AppCompatActivity(), KoinComponent, StatusListener {
         binding.lifecycleOwner = this
 
         recyclerView = binding.recyclerView
+        feedbackButton = binding.feedback.feedbackButton
 
         adapter = UserListAdapter()
         recyclerView?.adapter = adapter
+        feedbackButton?.setOnClickListener {
+            lifecycleScope.launch {
+                onButtonClick()
+            }
+        }
 
     }
 

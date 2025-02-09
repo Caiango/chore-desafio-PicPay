@@ -33,7 +33,8 @@ class UsersScreenComposableKtTest {
             MaterialTheme {
                 UsersScreenComposable(
                     modifier = Modifier.testTag(TEST_TAG),
-                    screen = UserScreenFakeData().readyUserScreen
+                    screen = UserScreenFakeData().readyUserScreen,
+                    listener = DummyStatusListener
                 )
             }
         }
@@ -65,7 +66,8 @@ class UsersScreenComposableKtTest {
             MaterialTheme {
                 UsersScreenComposable(
                     modifier = Modifier.testTag(TEST_TAG),
-                    screen = UserScreenFakeData().readyUserScreen
+                    screen = UserScreenFakeData().readyUserScreen,
+                    listener = DummyStatusListener
                 )
             }
         }
@@ -84,7 +86,8 @@ class UsersScreenComposableKtTest {
             MaterialTheme {
                 UsersScreenComposable(
                     modifier = Modifier.testTag(TEST_TAG),
-                    screen = UserScreenFakeData().errorUserScreen
+                    screen = UserScreenFakeData().errorUserScreen,
+                    listener = DummyStatusListener
                 )
             }
         }
@@ -104,7 +107,8 @@ class UsersScreenComposableKtTest {
             MaterialTheme {
                 UsersScreenComposable(
                     modifier = Modifier.testTag(TEST_TAG),
-                    screen = UserScreenFakeData().loadingUserScreen
+                    screen = UserScreenFakeData().loadingUserScreen,
+                    listener = DummyStatusListener
                 )
             }
         }
