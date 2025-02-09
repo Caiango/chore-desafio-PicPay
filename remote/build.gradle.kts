@@ -31,6 +31,13 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    packagingOptions {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            merges += "META-INF/LICENSE.md"
+            merges += "META-INF/LICENSE-notice.md"
+        }
+    }
 }
 
 dependencies {
@@ -38,9 +45,14 @@ dependencies {
     implementation(project(":local"))
 
     implementation("androidx.core:core-ktx:1.3.3")
-    testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
+    androidTestImplementation("junit:junit:4.13.2")
+    androidTestImplementation("org.jetbrains.kotlin:kotlin-test:1.5.31")
+    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2")
+
+    androidTestImplementation("io.mockk:mockk-android:1.13.16")
+    androidTestImplementation("androidx.arch.core:core-testing:2.2.0")
 
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.7.1")

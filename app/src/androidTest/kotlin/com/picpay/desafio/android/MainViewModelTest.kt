@@ -2,18 +2,13 @@ package com.picpay.desafio.android
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.picpay.desafio.android.presentation.MainViewModel
+import com.picpay.domain.providers.LocalProvider
+import com.picpay.domain.providers.RemoteProvider
 import com.picpay.domain.screen.ScreenStatus
 import com.picpay.domain.user.User
 import com.picpay.domain.user.UserScreen
-import com.picpay.remote.ServiceRemoteProvider
-import com.picpay.remote.UserRemote
-import com.picpay.remote.toRemote
-import com.pipcpay.local.room.UserRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.every
-import io.mockk.invoke
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
@@ -34,8 +29,8 @@ class MainViewModelTest {
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var userRepository: UserRepository
-    private lateinit var service: ServiceRemoteProvider
+    private lateinit var local: LocalProvider
+    private lateinit var remote: RemoteProvider
     private lateinit var viewModel: MainViewModel
 
     private val testDispatcher = UnconfinedTestDispatcher()
@@ -43,10 +38,10 @@ class MainViewModelTest {
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
-        userRepository = mockk(relaxed = true)
-        service = mockk(relaxed = true)
+        local = mockk(relaxed = true)
+        remote = mockk(relaxed = true)
 
-        viewModel = MainViewModel(userRepository, service)
+        viewModel = MainViewModel(local, remote)
     }
 
     @After
@@ -60,18 +55,17 @@ class MainViewModelTest {
             User(img = "url1", name = "John", id = 1, username = "john123"),
             User(img = "url2", name = "Jane", id = 2, username = "jane456")
         )
+        val userScreen = UserScreen(userList = userList, status = ScreenStatus.Ready)
 
-        every { service.getUsers(captureLambda(), any()) } answers {
-            lambda<(List<UserRemote>) -> Unit>().invoke(userList.map { it.toRemote() })
-        }
+        coEvery { remote.getUsers() } returns userScreen
 
         val observer = mockk<Observer<UserScreen>>(relaxed = true)
         viewModel.screen.observeForever(observer)
 
         viewModel.getData()
 
-        verify { observer.onChanged(UserScreen(userList = userList, status = ScreenStatus.Ready)) }
-        coVerify { userRepository.insertUser(userList) }
+        verify { observer.onChanged(userScreen) }
+        coVerify { local.insertUsers(userList) }
     }
 
     @Test
@@ -79,12 +73,10 @@ class MainViewModelTest {
         val localUsers = listOf(
             User(img = "url1", name = "John", id = 1, username = "john123")
         )
+        val userScreenError = UserScreen(status = ScreenStatus.Error())
 
-        every { service.getUsers(any(), captureLambda()) } answers {
-            lambda<(Throwable) -> Unit>().invoke(Throwable("Service error"))
-        }
-
-        coEvery { userRepository.getAllUsers() } returns localUsers
+        coEvery { remote.getUsers() } returns userScreenError
+        coEvery { local.getAllUsers() } returns localUsers
 
         val observer = mockk<Observer<UserScreen>>(relaxed = true)
         viewModel.screen.observeForever(observer)
@@ -102,19 +94,25 @@ class MainViewModelTest {
     }
 
     @Test
-    fun whenGetUsersFailsAndnoLocalDatasStatusShouldBeError() = runTest {
-        every { service.getUsers(any(), captureLambda()) } answers {
-            lambda<(Throwable) -> Unit>().invoke(Throwable("Service error"))
-        }
+    fun whenGetUsersFailsAndNoLocalDataStatusShouldBeError() = runTest {
+        val userScreenError = UserScreen(status = ScreenStatus.Error())
 
-        coEvery { userRepository.getAllUsers() } returns emptyList()
+        coEvery { remote.getUsers() } returns userScreenError
+        coEvery { local.getAllUsers() } returns emptyList()
 
         val observer = mockk<Observer<UserScreen>>(relaxed = true)
         viewModel.screen.observeForever(observer)
 
         viewModel.getData()
 
-        verify { observer.onChanged(match { it.status is ScreenStatus.Error }) }
+        verify {
+            observer.onChanged(
+                UserScreen(
+                    userList = emptyList(),
+                    status = ScreenStatus.Error()
+                )
+            )
+        }
     }
 
 }

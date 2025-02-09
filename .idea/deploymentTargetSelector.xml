@@ -8,13 +8,19 @@
       <SelectionState runConfigName="presentation">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="MainViewModelTest">
+      <SelectionState runConfigName="shouldDisplayTitle()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
       <SelectionState runConfigName="UserItemComposableKtTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
       <SelectionState runConfigName="UsersScreenComposableKtTest">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="MainViewModelTest">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="shouldDisplayListItem()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

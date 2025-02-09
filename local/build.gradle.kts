@@ -15,6 +15,14 @@ android {
         consumerProguardFiles("consumer-rules.pro")
     }
 
+    packagingOptions {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            merges += "META-INF/LICENSE.md"
+            merges += "META-INF/LICENSE-notice.md"
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -37,7 +45,6 @@ dependencies {
     implementation(project(":domain"))
 
     implementation("androidx.core:core-ktx:1.3.3")
-    testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
 
@@ -49,4 +56,8 @@ dependencies {
     // Koin
     implementation("io.insert-koin:koin-android:4.0.2")
     implementation("io.insert-koin:koin-core:4.0.2")
-}
+
+    // Test
+    androidTestImplementation("io.mockk:mockk-android:1.13.16")
+    androidTestImplementation("androidx.room:room-testing:2.6.1")
+ }
