@@ -1,11 +1,25 @@
 package com.picpay.remote
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import com.picpay.domain.providers.RemoteProvider
 import com.picpay.domain.screen.ScreenStatus
 import com.picpay.domain.user.UserScreen
 
-class UserRemoteProvider(private val service: ServiceProvider): RemoteProvider {
+class UserRemoteProvider(
+    private val service: ServiceProvider,
+    private val context: Context,
+) : RemoteProvider {
+
     override suspend fun getUsers(): UserScreen {
+        if (!isNetworkAvailable(context)) {
+            return UserScreen(
+                userList = null,
+                status = ScreenStatus.Error(Throwable(NO_INTERNET))
+            )
+        }
+
         val response = service.getUsers()
 
         return if (response.isSuccessful) {
@@ -20,4 +34,18 @@ class UserRemoteProvider(private val service: ServiceProvider): RemoteProvider {
             )
         }
     }
+
+    private fun isNetworkAvailable(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        val network = connectivityManager.activeNetwork
+        val capabilities = connectivityManager.getNetworkCapabilities(network)
+        return capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+    }
+
+    companion object {
+        private const val NO_INTERNET = "No internet connection"
+    }
+
 }

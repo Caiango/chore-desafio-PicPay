@@ -22,5 +22,5 @@ val repositoryModule = module {
 }
 
 val serviceModule = module {
-    single<RemoteProvider> { UserRemoteProvider(get()) }
+    single<RemoteProvider> { UserRemoteProvider(get(), get()) }
 }

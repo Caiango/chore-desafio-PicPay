@@ -22,6 +22,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.picpay.desafio.android.DummyStatusListener
+import com.picpay.desafio.android.StatusListener
 import com.picpay.domain.user.UserScreen
 import com.picpay.desafio.android.compose.fakedata.UserScreenFakeData
 import desafio_android.R
@@ -30,11 +32,13 @@ import desafio_android.R
 fun UsersScreenComposable(
     modifier: Modifier = Modifier,
     screen: UserScreen,
+    listener: StatusListener,
 ) {
 
     ScreenStatusComposable(
         modifier = modifier,
-        status = screen.status
+        status = screen.status,
+        listener = listener
     ) {
         Text(
             modifier = Modifier
@@ -78,7 +82,8 @@ private fun UsersScreenComposablePreview(
                 .background(color = Color.Black)
                 .padding(horizontal = 24.dp)
                 .fillMaxSize(),
-            screen = data
+            screen = data,
+            listener = DummyStatusListener
         )
     }
 }

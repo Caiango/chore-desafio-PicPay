@@ -25,11 +25,3 @@ fun UserRemote.toDomain(): User =
         username = username.orEmpty(),
         id = id ?: 0
     )
-
-fun User.toRemote(): UserRemote =
-    UserRemote(
-        img = img,
-        name = name,
-        username = username,
-        id = id
-    )

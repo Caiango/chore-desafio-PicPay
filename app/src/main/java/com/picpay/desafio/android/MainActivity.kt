@@ -16,7 +16,7 @@ import desafio_android.databinding.ActivityMainComposeBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinComponent
 
-class MainActivity : AppCompatActivity(), KoinComponent {
+class MainActivity : AppCompatActivity(), KoinComponent, StatusListener {
 
     private var composeBinding: ActivityMainComposeBinding? = null
     private var binding: ActivityMainBinding? = null
@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity(), KoinComponent {
         binding = ActivityMainBinding.inflate(layoutInflater)
         binding?.viewModel = this@MainActivity.viewModel
 
-        setContentView(binding?.root)
+        setContentView(composeBinding?.root)
 
         initObservers()
         binding?.let { initViews(it) }
@@ -57,7 +57,8 @@ class MainActivity : AppCompatActivity(), KoinComponent {
                             .fillMaxWidth()
                             .padding(start = 24.dp, end = 24.dp, top = 24.dp)
                             .background(color = Color.Black),
-                        screen = it
+                        screen = it,
+                        listener = this@MainActivity
                     )
                 }
 
@@ -68,9 +69,15 @@ class MainActivity : AppCompatActivity(), KoinComponent {
         }
     }
 
+
+    override suspend fun onButtonClick() {
+        viewModel.getData()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         composeBinding = null
         binding = null
     }
+
 }
