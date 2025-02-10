@@ -8,12 +8,13 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry
-import com.picpay.desafio.android.presentation.MainActivity
 import desafio_android.R
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import okhttp3.mockwebserver.RecordedRequest
+import org.junit.After
+import org.junit.Before
 import org.junit.Test
 
 
@@ -22,6 +23,16 @@ class MainActivityTest {
     private val server = MockWebServer()
 
     private val context = InstrumentationRegistry.getInstrumentation().targetContext
+
+    @Before
+    fun setUp() {
+      server.start(SERVER_PORT)
+    }
+
+    @After
+    fun tearDown() {
+        server.shutdown()
+    }
 
     @Test
     fun shouldDisplayTitle() {
@@ -45,18 +56,21 @@ class MainActivityTest {
             }
         }
 
-        server.start(serverPort)
-
         launchActivity<MainActivity>().apply {
-            onView(withId(R.id.recyclerView))
-                .check(matches(isDisplayed()))
-        }
+            moveToState(Lifecycle.State.RESUMED)
 
-        server.close()
+            onView(withId(R.id.recyclerView)).check(matches(isDisplayed()))
+
+            RecyclerViewMatchers.checkRecyclerViewItem(
+                R.id.recyclerView,
+                0,
+                withText("Eduardo Santos")
+            )
+        }
     }
 
     companion object {
-        private const val serverPort = 8080
+        private const val SERVER_PORT = 8080
 
         private val successResponse by lazy {
             val body =
