@@ -1,8 +1,10 @@
 package com.picpay.remote.di
 
 import com.google.gson.GsonBuilder
+import com.picpay.domain.providers.RemoteProvider
 import com.picpay.remote.ServiceProvider
 import com.picpay.remote.PicPayServiceRemoteEndpoints
+import com.picpay.remote.UserRemoteProvider
 import okhttp3.OkHttpClient
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -28,4 +30,6 @@ val remoteModule = module {
     single {
         get<Retrofit>().create(ServiceProvider::class.java)
     }
+
+    single<RemoteProvider> { UserRemoteProvider(get(), get()) }
 }

@@ -16,8 +16,6 @@ class PicPayApplication : Application() {
                 remoteModule,
                 presentationModule,
                 localModule,
-                repositoryModule,
-                serviceModule
             )
         }
     }

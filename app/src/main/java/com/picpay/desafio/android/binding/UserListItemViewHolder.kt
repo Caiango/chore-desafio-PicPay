@@ -11,14 +11,14 @@ class UserListItemViewHolder(
     private val binding: ListItemUserBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(userRemote: User) {
+    fun bind(user: User) {
 
-        binding.user = userRemote
+        binding.user = user
 
         binding.progressBar.visibility = View.VISIBLE
 
         Picasso.get()
-            .load(userRemote.img)
+            .load(user.img)
             .error(R.drawable.ic_round_account_circle)
             .into(binding.picture, object : com.squareup.picasso.Callback {
                 override fun onSuccess() {
